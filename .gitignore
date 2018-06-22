@@ -1,7 +1,68 @@
+# Compiled class file
 *.class
-  *.apk
-*.idea
-  bin/
-  gen/
-  .settings/
-  proguard/
+
+# Log file
+*.log
+log.txt
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# 压缩文件
+target/
+bin/
+/out/
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# 自定义配置文件
+*.properties
+!log4j.properties
+!application*.properties
+
+# IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# 图片
+img/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.ico
+
+#视频
+.mp4
+
+# 数据
+json/
+*.json
+
+# Gradle files
+.gradle/
+build/
+*/build/
+gradlew
+gradlew.bat
+
+# SVN
+.svn/*
+
