@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="szqy:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="szqy.war">
+      <element id="artifact" artifact-name="szqy:war exploded" />
+    </root>
+  </artifact>
+</component>

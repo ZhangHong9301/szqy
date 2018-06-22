@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bonc.szqy.modules.pages.dao.ProvMapper">
+    <!--短信排行榜Top5 -->
+    <select id="smsCountTop5" resultType="java.util.Map">
+        select
+        a.sms_num,
+        b.prov_name
+        from (
+        select
+        count(distinct mobile) as sms_num,
+        core_id
+        from dm_bss_srv_a_sms_send_log
+        <where>
+            stat_date = date_format(now(),'%Y-%m-%d')
+            AND substr(stat_date_min,9,2) between '07' and '22'
+            AND come_city_code IS NOT NULL
+            <if test="cityCode != null and cityCode != ''">
+                and come_city_code = #{cityCode}
+            </if>
+            <if test="countrycode != null and countrycode != ''">
+                and come_country_code = #{countrycode}
+            </if>
+        </where>
+        group by
+        core_id ) a
+        left join  (select prov_code, prov_name from dim_prov_city_code group by prov_code, prov_name) b
+        on  a.core_id = b.prov_code
+        order by sms_num desc limit 5
+    </select>
+
+    <!--当日发送量 -->
+    <select id="smsCountByDay" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        select
+        count(distinct mobile) as sms_num
+        from dm_bss_srv_a_sms_send_log
+        <where>
+            stat_date = date_format(now(),'%Y-%m-%d')
+            and substr(stat_date_min,9,2) between '07' and '22'
+            AND come_city_code IS NOT NULL
+            <if test="cityCode != null and cityCode != ''">
+                and come_city_code = #{cityCode}
+            </if>
+            <if test="countryCode != null and countryCode != ''">
+                and come_country_code = #{countryCode}
+            </if>
+        </where>
+    </select>
+
+
+    <!--年累计发送量 -->
+    <select id="smsCountByYear" parameterType="java.util.Map"
+            resultType="java.util.Map">
+
+        select
+        count(distinct mobile) as sms_num
+        from dm_bss_srv_a_sms_send_log
+        <where>
+            substr(stat_date,1,4) = date_format(now(),'%Y')
+            and substr(stat_date_min,9,2) between '07' and '22'
+            AND come_city_code IS NOT NULL
+            <if test="cityCode != null and cityCode != ''">
+                and come_city_code = #{cityCode}
+            </if>
+            <if test="countryCode != null and countryCode != ''">
+                and come_country_code = #{countryCode}
+            </if>
+        </where>
+    </select>
+
+    <!--分钟级别获取短信量 -->
+    <select id="smsCountByTime" parameterType="java.util.Map"
+            resultType="java.util.Map">
+
+        select
+        count(distinct mobile) as sms_num
+        from dm_bss_srv_a_sms_send_log
+        <where>
+            come_city_code IS NOT NULL
+            and stat_date_min = (
+            select max(stat_date_min)
+            from dm_bss_srv_a_sms_send_log
+            where stat_date = date_format(now(),'%Y-%m-%d') )
+            <if test="cityCode != null and cityCode != ''">
+                and come_city_code = #{cityCode}
+            </if>
+            <if test="countryCode!= null and countryCode != ''">
+                and come_country_code = #{countryCode}
+            </if>
+        </where>
+    </select>
+
+
+
+    <!--客流趋势 -->
+    <select id="flowTrend" parameterType="java.util.Map" resultType="java.util.Map">
+
+        select
+        substr(stat_hour,-2)    as query_value1 ,
+        sum(stay_person_cnts) as  query_value2
+        from dm_bss_srv_a_ps_nadd_h
+        <where>
+            op_day = date_format(now(),'%Y%m%d')
+            and substr(stat_hour,9,2) between '07' and substr(date_format(now(),'%Y%m%d%H'),9,2)
+            <if test="countryCode != null and countryCode != ''">
+                and city_id = #{countryCode}
+            </if>
+        </where>
+        group by stat_hour
+    </select>
+
+
+
+
+    <!--游客旅游时长 -->
+    <select id="cusPlayTime" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        select
+        sum(person_cnts)       as cnt,
+        b.type_name            as duration
+        from
+        dm_bss_srv_a_ps_reside_time_min a
+        left join
+        dim_bss_srv_i_reside_time_set_info b
+        on a.type_id = b.type_id
+        <where>
+            a.op_day = date_format(now(),'%Y%m%d')
+            and a.stat_min=(
+            select
+            max(stat_min)
+            from
+            dm_bss_srv_a_ps_reside_time_min
+            where op_day = date_format(now(),'%Y%m%d'))
+            <if test="countryCode != null and countryCode != ''">
+                and city_id in (select city_code from dim_city_county_code where county_code = #{countryCode})
+            </if>
+        </where>
+        group by  b.type_name
+
+    </select>
+
+
+    <!--游客驻留时长 查询驻留频次  -->
+    <select id="cusStayTime" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        select
+        sum(person_cnts)       as cnt,
+        b.type_name            as duration
+        from
+        dm_bss_srv_a_ps_vst_stay_day a
+        left join
+        dim_bss_srv_i_vst_stay_set_info b
+        on a.type_id = b.type_id
+        <where>
+            a.stat_date = date_format(date_sub(curdate(),interval 1 day),'%Y%m%d')
+            <if test="countryCode != null and countryCode != ''">
+                and city_id  in (select city_code from dim_city_county_code where county_code = #{countryCode})
+            </if>
+        </where>
+        group by b.type_name
+
+    </select>
+
+
+    <!--游客来源Top10 -->
+    <select id="cusLandTop" parameterType="java.util.Map"
+            resultType="java.util.Map">
+
+        select
+        b.prov_name       as province,
+        person_cnts       as cnt
+        from
+        (select
+        src_prov_id,
+        sum(out_person) as person_cnts
+        from dm_bss_srv_a_ps_nadd_src_h
+        <where>
+            op_day =date_format(now(),'%Y%m%d')
+            <if test="cityCode != null and cityCode != ''">
+                and city_id = #{cityCode}
+            </if>
+            <if test="countryCode != null and countryCode != ''">
+                and county_id = #{countryCode}
+            </if>
+            and stat_hour =(
+            select
+            max(stat_hour)
+            from dm_bss_srv_a_ps_nadd_src_h
+            where  op_day = date_format(now(),'%Y%m%d') )
+        </where>
+        group by src_prov_id ) a
+        left join
+        (
+        select
+        prov_code,
+        prov_name
+        from dim_prov_city_code
+        group by prov_code,prov_name ) b
+        on  a.src_prov_id = b.prov_code
+        where b.prov_name is not null
+        order by cnt desc limit 10
+
+    </select>
+
+
+    <!--全省旅客累积情况 -->
+    <select id="allDayFlow" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        select
+        sum(record_person_cnts)     as dangriLeijiKeliu,
+        sum(real_person_cnts)       as shishiXinzeng,
+        sum(net_person_cnts)        as jingzengKeliu
+        from dm_bss_srv_a_ps_nadd_record_h
+        <where>
+            op_day = date_format(now(),'%Y%m%d')
+            <if test="countryCode == null or countryCode == ''">
+                and CITY_ID like '85%'
+            </if>
+            and stat_hour=(
+            select
+            max(stat_hour)
+            from dm_bss_srv_a_ps_nadd_record_h
+            where op_day = date_format(now(),'%Y%m%d')
+            and substr(stat_hour,9,2) between '07' and '22'
+            <if test="countryCode != null and countryCode != ''">
+                and city_id = #{countryCode}
+            </if>)
+            <if test="countryCode != null and countryCode != ''">
+                and city_id = #{countryCode}
+            </if>
+        </where>
+    </select>
+
+
+
+
+    <select id="getCityCode" parameterType="java.util.Map" resultType="java.lang.String">
+
+        SELECT CITY_CODE FROM dim_city_county_code WHERE COUNTY_CODE= #{countryCode}
+
+    </select>
+
+
+    <!--热力图 -->
+    <select id="getHeatMap" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        select
+        b.city_name as city_name,
+        sum(out_person)  as out_num
+        from  (
+        select
+        city_id,county_id,out_person
+        from dm_bss_srv_a_ps_nadd_src_h
+        where
+        stat_hour = (
+        select max(stat_hour)
+        from dm_bss_srv_a_ps_nadd_src_h
+        where  op_day = date_format(now(),'%Y%m%d') )) a
+        left join dim_city_county_code b
+        on  a.county_id = b.county_code
+        group by
+        b.city_name
+
+    </select>
+
+    <select id="getHeatCTMap" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        select
+        b.county_name  as COUNTY_NAME,
+        COALESCE(sum(out_person),0)  as out_num
+        from  (
+        select
+        city_id,county_id,out_person
+        from dm_bss_srv_a_ps_nadd_src_h
+        where
+        city_id = #{cityCode}
+        AND
+        stat_hour = (
+        select max(stat_hour)
+        from dm_bss_srv_a_ps_nadd_src_h
+        where  op_day = date_format(now(),'%Y%m%d') )) a
+        right join (select * from dim_city_county_code where
+        city_code = #{cityCode}) b
+        on  a.county_id = b.county_code
+        group by
+        b.county_name
+
+
+    </select>
+
+
+    <!--迁移图 -->
+    <!-- <select id="getQianYiMap" parameterType="java.util.Map"
+            resultType="java.util.Map">
+
+    </select> -->
+
+
+    <!--实施新增客流 -->
+    <!-- <select id="nowIncrFlow" parameterType="java.util.Map"
+            resultType="java.util.Map">
+
+    </select> -->
+
+
+    <!--净增客流 -->
+    <!-- <select id="onlyIncrFlow" parameterType="java.util.Map"
+            resultType="java.util.Map">
+
+    </select> -->
+</mapper>

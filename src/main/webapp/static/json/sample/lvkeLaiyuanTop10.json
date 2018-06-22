@@ -1,0 +1,44 @@
+{
+  "statusCode": 0,
+  "data": [
+    {
+      "province": "湖南",
+      "cnt": 111
+    },
+    {
+      "province": "湖北",
+      "cnt": 222
+    },
+    {
+      "province": "新疆",
+      "cnt": 333
+    },
+    {
+      "province": "河南",
+      "cnt": 444
+    },
+    {
+      "province": "广东",
+      "cnt": 555
+    },
+    {
+      "province": "宁夏",
+      "cnt": 666
+    },{
+      "province": "海南",
+      "cnt": 777
+    },
+    {
+      "province": "西藏",
+      "cnt": 888
+    },
+    {
+      "province": "山东",
+      "cnt": 999
+    },
+    {
+      "province": "北京",
+      "cnt": 1111
+    }
+  ]
+}

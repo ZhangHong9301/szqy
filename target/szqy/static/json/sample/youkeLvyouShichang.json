@@ -1,0 +1,25 @@
+{
+  "statusCode": 0,
+  "data": [
+    {
+      "duration": "10分钟以下",
+      "cnt": 666
+    },
+    {
+      "duration": "10-20分钟",
+      "cnt": 666
+    },
+    {
+      "duration": "20-30分钟",
+      "cnt": 666
+    },
+    {
+      "duration": "30-40分钟",
+      "cnt": 666
+    },
+    {
+      "duration": "40-50分钟",
+      "cnt": 666
+    }
+  ]
+}

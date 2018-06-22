@@ -1,0 +1,17 @@
+{
+  "statusCode": 0,
+  "data": {
+    "mapLevel": "province",
+    "mapCode": "851",
+    "value": [
+      {
+        "name": "贵阳",
+        "value": 666
+      },
+      {
+        "name": "遵义市",
+        "value": 777
+      }
+    ]
+  }
+}

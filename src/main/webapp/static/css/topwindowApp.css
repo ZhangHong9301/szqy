@@ -1,0 +1,45 @@
+[id^='topwindowApp'] .navbar .navbar-nav > li > a {
+	color: rgba(21, 20, 20, 0.61);
+	text-shadow: 0 0px 0 rgba(0, 0, 0, 0.25);
+}
+[id^='topwindowApp'] .dropdown-menu>li>a {
+	height: 33px;
+	line-height: 2;
+	border-top: 1px;
+}
+[id^='topwindowApp'] .dmchildren {
+	position: absolute;
+	top: -9px;
+	left: 148px;
+}
+[id^='topwindowApp'] .dropdown-menu {
+	width: 150px;
+	min-width: 0px;
+}
+[id^='topwindowApp'].topwindowApp {
+	background-color: white;
+	position: absolute;
+	top: 48px;
+	/* left: 10px; */
+	display: none;
+	z-index: 1;
+}
+[id^='topwindowApp'] .topwindowAppHeader {
+	height: 30px;
+}
+[id^='topwindowApp'] .topwindowAppMenu {
+}
+[id^='topwindowApp'] .topwindowAppHeaderRight {
+	float: right;
+	margin-top: 7px;
+}
+[id^='topwindowApp'] .topwindowAppHeaderRightA {
+	margin-right: 8px;
+}
+[id^='topwindowApp'] .ddchildren .fa {
+	float: right;
+	margin-top: 7px;
+}
+[id^='topwindowApp'] .navbar {
+	background: linear-gradient(to bottom, #DDE0E4 0%,#C2DBF5 100%);
+}

@@ -1,0 +1,33 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Microsoft YaHei UI';
+}
+
+table {
+  border-collapse: collapse; //解决滚动bar图有间隔的问题
+  border-spacing: 0; //解决滚动bar图有间隔的问题
+  margin-bottom: 0 !important; //重置Bootstrap样式
+}
+
+thead th {
+  font-weight: bold;
+}
+
+th, td {
+  text-align: center;
+  vertical-align: middle !important;
+  font-weight: 500; //重置浏览器加粗样式
+}
+
+label {
+  margin-bottom: 0; //重置Bootstrap样式
+}
+
+.modal-content {
+  border-radius: 0; //重置Bootstrap样式
+}

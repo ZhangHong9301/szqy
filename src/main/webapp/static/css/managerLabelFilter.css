@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+	#wrapper（div）{height:100%;}
+	.update-label-div-control{
+		padding:5px 0
+	}
+	.update-label-div-control span{
+		float:right;
+		font-weight:bold;
+		font-size:13px;
+		color:#ffffff
+	}
+	select{
+	width:auto;
+	border: solid 1px #1FA668;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    padding-right: 14px;
+    background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+	}

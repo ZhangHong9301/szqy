@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bonc.szqy.modules.user.dao.UserDao" >
+  <resultMap id="BaseResultMap" type="com.bonc.szqy.modules.user.entity.User" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CREATE_ID" property="createId" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="USER_SEX" property="userSex" jdbcType="VARCHAR" />
+    <result column="USER_MOBILE" property="userMobile" jdbcType="VARCHAR" />
+    <result column="USER_TELEPHONE" property="userTelephone" jdbcType="VARCHAR" />
+    <result column="USER_MAIL" property="userMail" jdbcType="VARCHAR" />
+    <result column="PWD_STATE" property="pwdState" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="EMP_NO" property="empNo" jdbcType="VARCHAR" />
+    <result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, CREATE_ID, LOGIN_ID, PASSWORD, ORG_ID, USER_NAME, USER_SEX, USER_MOBILE, 
+    USER_TELEPHONE, USER_MAIL, PWD_STATE, CREATE_TIME, UPDATE_TIME, USER_LEVEL, MEMO, 
+    EMP_NO,AREA_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trbac_user
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trbac_user
+    where LOGIN_ID = #{userName,jdbcType=VARCHAR}
+  </select>
+
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from trbac_user
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bonc.szqy.modules.user.entity.User" >
+    insert into trbac_user (USER_ID, CREATE_ID, LOGIN_ID, 
+      PASSWORD, ORG_ID, USER_NAME, 
+      USER_SEX, USER_MOBILE, USER_TELEPHONE, 
+      USER_MAIL, PWD_STATE, CREATE_TIME, 
+      UPDATE_TIME, USER_LEVEL, MEMO, 
+      EMP_NO,AREA_ID)
+    values (#{userId,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userSex,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, #{userTelephone,jdbcType=VARCHAR}, 
+      #{userMail,jdbcType=VARCHAR}, #{pwdState,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
+      #{updateTime,jdbcType=DATE}, #{userLevel,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{empNo,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonc.szqy.modules.user.entity.User" >
+    insert into trbac_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="createId != null" >
+        CREATE_ID,
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="userSex != null" >
+        USER_SEX,
+      </if>
+      <if test="userMobile != null" >
+        USER_MOBILE,
+      </if>
+      <if test="userTelephone != null" >
+        USER_TELEPHONE,
+      </if>
+      <if test="userMail != null" >
+        USER_MAIL,
+      </if>
+      <if test="pwdState != null" >
+        PWD_STATE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="userLevel != null" >
+        USER_LEVEL,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="empNo != null" >
+        EMP_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobile != null" >
+        #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userTelephone != null" >
+        #{userTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null" >
+        #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdState != null" >
+        #{pwdState,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="userLevel != null" >
+        #{userLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="empNo != null" >
+        #{empNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonc.szqy.modules.user.entity.User" >
+    update trbac_user
+    <set >
+      <if test="createId != null" >
+        CREATE_ID = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        USER_SEX = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobile != null" >
+        USER_MOBILE = #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userTelephone != null" >
+        USER_TELEPHONE = #{userTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null" >
+        USER_MAIL = #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdState != null" >
+        PWD_STATE = #{pwdState,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="userLevel != null" >
+        USER_LEVEL = #{userLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="empNo != null" >
+        EMP_NO = #{empNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonc.szqy.modules.user.entity.User" >
+    update trbac_user
+    set CREATE_ID = #{createId,jdbcType=VARCHAR},
+      LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_SEX = #{userSex,jdbcType=VARCHAR},
+      USER_MOBILE = #{userMobile,jdbcType=VARCHAR},
+      USER_TELEPHONE = #{userTelephone,jdbcType=VARCHAR},
+      USER_MAIL = #{userMail,jdbcType=VARCHAR},
+      PWD_STATE = #{pwdState,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      USER_LEVEL = #{userLevel,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      EMP_NO = #{empNo,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updatePwdByLoginId">
+    UPDATE  trbac_user
+    SET PASSWORD = #{pwd}
+    WHERE LOGIN_ID = #{loginId}
+
+  </update>
+</mapper>
