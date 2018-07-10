@@ -33,11 +33,11 @@ public class ProvController {
     @RequestMapping("/province-overview")
     public String provPage(HttpSession session, HttpServletRequest request) {
 
-        if (null == session || null == session.getAttribute("userInfo_areaId")
+        /*if (null == session || null == session.getAttribute("userInfo_areaId")
                 || StringUtils.isBlank(session.getAttribute("userInfo_areaId") + "")) {
             logger.info("ProvController.provPage() 用户session为空，跳转登录页... IP:{}", RequestUtil.getIpAddr(request));
             return "forward:/login";
-        }
+        }*/
         return "/modules/page/province-overview";
     }
 

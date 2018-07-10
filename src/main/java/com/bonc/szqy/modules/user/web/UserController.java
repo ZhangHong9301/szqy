@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,15 +88,15 @@ public class UserController {
 		if (StringUtils.isBlank(userName) || 50<userName.length()){
 			loginStatus.put("auth", "-1");
 			loginStatus.put("errorCode", "10");
-			loginStatus.put("msg", "用户名不合法，请检查");
-			logger.info("UserController.userLogin() userName={}，password={}, code={} 用户名不合法，请检查", userName, password, code);
+			loginStatus.put("msg", "用户名或密码有误！");
+			logger.info("UserController.userLogin() userName={}，password={}, code={} 用户名或密码有误！", userName, password, code);
 			return loginStatus;
 		}
 		if(!code.toUpperCase().equals(sesscode.toUpperCase())){
 			loginStatus.put("auth", "-1");
 			loginStatus.put("errorCode", "9");
-			loginStatus.put("msg", "验证码不正确，请重新输入");
-			logger.info("UserController.userLogin() userName={}，password={}, code={}, realCode={} 验证码不正确，请重新输入", userName, password, code, sesscode);
+			loginStatus.put("msg", "验证码有误！");
+			logger.info("UserController.userLogin() userName={}，password={}, code={}, realCode={} 验证码有误！", userName, password, code, sesscode);
 			return loginStatus;
 		}
 		int resultValue = 4;
@@ -113,14 +114,14 @@ public class UserController {
 
 				loginStatus.put("auth", "" + resultValue);
 				loginStatus.put("errorCode", "8");
-				loginStatus.put("msg", "用户不存在。");
-				logger.info("UserController.userLogin() userName={}，password={}, code={} 用户不存在。", userName, password, code);
+				loginStatus.put("msg", "用户名或密码有误！");
+				logger.info("UserController.userLogin() userName={}，password={}, code={} 用户名或密码有误！", userName, password, code);
 				return loginStatus;
 			}
 
 			String resultName = "";
 			if (resultValue != 0) {
-				resultName = "账号或密码错误，请重新输入！";
+				resultName = "用户名或密码有误！";
 			} 
 			loginStatus.put("auth", "" + resultValue);
 			loginStatus.put("errorCode", resultName);
@@ -143,11 +144,15 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/logout")
-	public String logout(HttpSession session){
+	public String logout(HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (null != session && null != session.getAttribute("userInfo_loginId")){
 			session.removeAttribute("userInfo_loginId");
 			session.removeAttribute("userInfo_areaId");
 		}
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		response.setDateHeader("Expires", -1);
+		/*response.sendRedirect(request.getContextPath() + "/login.jsp");*/
 		return "redirect:/login";
 	}
 

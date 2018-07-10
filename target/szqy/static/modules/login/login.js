@@ -31,14 +31,14 @@ $(function() {
 							},
 							regexp : {
 								regexp : /^[a-zA-Z0-9_]+$/,
-								message : '用户名称输入错误'
+								message : '用户名或密码有误！'
 							}
 						}
 					},
 					password : {
 						validators : {
 							notEmpty : {
-								message : '请输入登录密码'
+								message : '请输入密码'
 							}
 						}
 					}
@@ -62,10 +62,10 @@ $(function() {
 					function loginSuccess(data) {
 						// 判断该用户是否有菜单权限
 						if (data.auth != 0) {
-							if (data.errorCode == 8) {
-								alert('服务器连接失败!');
+							/*if (data.errorCode == 8) {
+								alert('用户名或密码有误！');
 								return;
-							}
+							}*/
 
 							$("#errmsg").html(data.msg);
 							$('#nextBtn').removeAttr("disabled");
@@ -83,6 +83,7 @@ $(function() {
 							
 							
 							window.location.href="/szqy/Prov/province-overview";
+                            changeImg();
 							
 						}
 
